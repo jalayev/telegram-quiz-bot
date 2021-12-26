@@ -13,7 +13,6 @@ bot = telegram.Bot(token=TOKEN)
 app = Flask(__name__)
 
 
-
 @app.route('/{}'.format(TOKEN), methods=['POST'])
 def respond():
     # retrieve the message in JSON and then transform it to Telegram object
@@ -35,20 +34,20 @@ def respond():
         # send the welcoming message
         bot.sendMessage(chat_id=chat_id, text=bot_welcome, reply_to_message_id=msg_id)
     elif text == "buttons":
-
-        keyboard = [
-            [
-                InlineKeyboardButton("Option 1", callback_data='1'),
-                InlineKeyboardButton("Option 2", callback_data='2'),
-            ],
-            [InlineKeyboardButton("Option 3", callback_data='3')],
-        ]
-
-        reply_markup = InlineKeyboardMarkup(keyboard)
-
-        update.message.reply_text('Please choose:', reply_markup=reply_markup)
+        bot.sendMessage(chat_id=chat_id, text=".idk.", reply_to_message_id=msg_id)
+        # keyboard = [
+        #     [
+        #         InlineKeyboardButton("Option 1", callback_data='1'),
+        #         InlineKeyboardButton("Option 2", callback_data='2'),
+        #     ],
+        #     [InlineKeyboardButton("Option 3", callback_data='3')],
+        # ]
+        #
+        # reply_markup = InlineKeyboardMarkup(keyboard)
+        #
+        # update.message.reply_text('Please choose:', reply_markup=reply_markup)
     elif text == "great":
-        bot.sendMessage(chat_id=chat_id, text="I know.", reply_to_message_id=msg_id);
+        bot.sendMessage(chat_id=chat_id, text="I know.", reply_to_message_id=msg_id)
     else:
         try:
             # clear the message we got from any non alphabets
