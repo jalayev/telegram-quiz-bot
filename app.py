@@ -1,6 +1,8 @@
 from flask import Flask, request
 import telegram
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telebot.credentials import bot_token, bot_user_name, URL
+from telebot.quiz_game.main import *
 
 global bot
 global TOKEN
@@ -9,6 +11,7 @@ bot = telegram.Bot(token=TOKEN)
 
 # start the flask app
 app = Flask(__name__)
+
 
 
 @app.route('/{}'.format(TOKEN), methods=['POST'])
@@ -27,20 +30,31 @@ def respond():
     if text == "/start":
         # print the welcoming message
         bot_welcome = """
-       Welcome to coolAvatar bot, the bot is using the service from http://avatars.adorable.io/ to generate cool looking avatars based on the name you enter so please enter a name and the bot will reply with an avatar for your name.
+       Welcome to Quiz bot!
        """
         # send the welcoming message
         bot.sendMessage(chat_id=chat_id, text=bot_welcome, reply_to_message_id=msg_id)
+    elif text == "buttons":
+
+        keyboard = [
+            [
+                InlineKeyboardButton("Option 1", callback_data='1'),
+                InlineKeyboardButton("Option 2", callback_data='2'),
+            ],
+            [InlineKeyboardButton("Option 3", callback_data='3')],
+        ]
+
+        reply_markup = InlineKeyboardMarkup(keyboard)
+
+        update.message.reply_text('Please choose:', reply_markup=reply_markup)
+    elif text == "great":
+        bot.sendMessage(chat_id=chat_id, text="I know.", reply_to_message_id=msg_id);
     else:
         try:
             # clear the message we got from any non alphabets
             # text = re.sub(r"\W", "_", text) # re - unresolved reference ###
 
-            # create the api link for the avatar based on http://avatars.adorable.io/
-            url = "https://api.adorable.io/avatars/285/{}.png".format(text.strip())
-            # reply with a photo to the name the user sent,
-            # note that you can send photos by url and telegram will fetch it for you
-            bot.sendPhoto(chat_id=chat_id, photo=url, reply_to_message_id=msg_id)
+            bot.sendMessage(chat_id=chat_id, text=text, reply_to_message_id=msg_id)
         except Exception:
             # if things went wrong
             bot.sendMessage(chat_id=chat_id,
