@@ -3,11 +3,11 @@ import random
 
 class QuizBrain:
 
-    def __init__(self, question_list):
+    def __init__(self, question_list, lives_num):
         self.question_list = question_list
         self.question_number = 0
         self.score = 0
-        self.lives = 3
+        self.lives = lives_num
         self.game_is_over = False
         self.current_question = self.question_list[0]
 
@@ -29,9 +29,16 @@ class QuizBrain:
         del self.current_question
 
     def next_question(self, bot, chat_id, msg_id):
+        if not self.has_questions():
+            msg = "There is no more questions, you win.\n" \
+                  f"Your final score is {self.score}/{self.question_number}" \
+                   "Click /start to start a new quiz, /change_topic or /change_difficulty"
+            bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
+            self.game_is_over = True
+            return
         rand_ind = random.randint(0, len(self.question_list) - 1)
         self.current_question = self.question_list[rand_ind]
         self.question_number += 1
 
-        question_text = f"Q.{self.question_number}: {self.current_question.text} (True/False)?: "
+        question_text = f"Q.{self.question_number}: {self.current_question.text} /true or /false ❔: "
         bot.sendMessage(chat_id=chat_id, text=question_text, reply_to_message_id=msg_id)
