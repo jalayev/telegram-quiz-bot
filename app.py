@@ -30,7 +30,8 @@ quiz = quiz_start(chosen_topic, lives_num)
 
 @app.route('/{}'.format(TOKEN), methods=['POST'])
 def respond():
-    print(" \n ---local port--- \n")  # testing
+    # print(" \n ---local port--- \n")  # testing
+    print(" \n ---heroku server--- \n")  # testing
     global game_started
     global quiz
     global chosen_topic
@@ -39,14 +40,14 @@ def respond():
     # retrieve the message in JSON and then transform it to Telegram object
     update = telegram.Update.de_json(request.get_json(force=True), bot)
 
-    chat_id = update.message.chat.id
-    msg_id = update.message.message_id
+    chat_id = update.effective_message.chat.id
+    msg_id = update.effective_message.message_id
 
     # Telegram understands UTF-8, so encode text for unicode compatibility
-    text = update.message.text.encode('utf-8').decode()
+    text = update.effective_message.text.encode('utf-8').decode()
     # for debugging purposes only
     print("got text message :", text)
-    print(f"\n{game_started}\n")
+    print(f"\nGame started: {game_started}\n")
     # the first time you chat with the bot AKA the welcoming message
     if quiz.game_is_over:
         game_started = False
@@ -212,7 +213,7 @@ if __name__ == '__main__':
 #         ]
 #     ]
 #     reply_markup = InlineKeyboardMarkup(keyboard)
-#     update.message.reply_text('Please choose:', reply_markup=reply_markup) # elif text == "buttons":
+#     update.effective_message.reply_text('Please choose:', reply_markup=reply_markup) # elif text == "buttons":
 #     #     keyboard = [
 #     #         [
 #     #             InlineKeyboardButton("True", callback_data='true'),
@@ -220,4 +221,4 @@ if __name__ == '__main__':
 #     #         ]
 #     #     ]
 #     #     reply_markup = InlineKeyboardMarkup(keyboard)
-#     #     update.message.reply_text('Please choose:', reply_markup=reply_markup)
+#     #     update.effective_message.reply_text('Please choose:', reply_markup=reply_markup)
