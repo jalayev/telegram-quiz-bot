@@ -156,9 +156,9 @@ def respond():
         )
     elif text == "/change_difficulty" and not game_started:
         msg = f"Current difficulty is {chosen_difficulty}.\n" \
-              f"    type /easy to have 7 lives\n" \
-              f"    type /normal to have 5 lives\n" \
-              f"    type /hard to have 3 lives"
+              f"    type ❄ /easy to have 7 lives\n" \
+              f"    type ❄❄ /normal to have 5 lives\n" \
+              f"    type ❄❄❄ /hard to have 3 lives"
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
     elif text == "/easy" and not game_started:
         chosen_difficulty = "easy"
@@ -384,7 +384,7 @@ def respond():
     elif text == "/help":
         msg = "You can change the settings with /change_topic and /change_difficulty and click /start to play.\n" \
               "Type 'quit' to quit the game.\n" \
-              "Settings can be changed only if the Quiz is not started." \
+              "Settings can be changed only if the Quiz is not started.\n" \
               "Contact bot creator on telegram: @tima_1j"
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
     elif text == "/stats":
