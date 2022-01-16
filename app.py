@@ -400,7 +400,8 @@ def respond():
             for user in stats_rows:
                 if user[3] != "0/0":
                     msg += f"User: {user[0]} | difficulty: {user[1]} | topic: {user[2]} | score: {user[3]}\n"
-            bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
+            if msg != "":
+                bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
     else:
         msg = "Not allowed input. Please click /start to start the quiz or answer the question with '/true' or '/false'"
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
