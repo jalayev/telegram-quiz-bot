@@ -156,9 +156,9 @@ def respond():
         )
     elif text == "/change_difficulty" and not game_started:
         msg = f"Current difficulty is {chosen_difficulty}.\n" \
-              f"    type ❄ /easy to have 7 lives\n" \
-              f"    type ❄❄ /normal to have 5 lives\n" \
-              f"    type ❄❄❄ /hard to have 3 lives"
+              f"❄ type /easy to have 7 lives\n" \
+              f"❄❄ type /normal to have 5 lives\n" \
+              f"❄❄❄ type /hard to have 3 lives"
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
     elif text == "/easy" and not game_started:
         chosen_difficulty = "easy"
