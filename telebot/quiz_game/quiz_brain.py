@@ -17,10 +17,10 @@ class QuizBrain:
     def check_answer(self, bot, chat_id, msg_id, user_answer):
         correct_answer = ""
         if self.current_question.answer.lower() == user_answer:
-            correct_answer += "That's right. "
+            correct_answer += "That's right  ✅  "
             self.score += 1
         else:
-            correct_answer += "That's wrong. "
+            correct_answer += "That's wrong  ❌  "
             self.lives -= 1
             if self.lives == 0:
                 self.game_is_over = True
@@ -30,9 +30,9 @@ class QuizBrain:
 
     def next_question(self, bot, chat_id, msg_id):
         if not self.has_questions():
-            msg = "There is no more questions, you win.\n" \
-                  f"Your final score is {self.score}/{self.question_number}" \
-                   "Click /start to start a new quiz, /change_topic or /change_difficulty"
+            msg = "✨🏆✨ There is no more questions, you win ✨🏆✨\n" \
+                  f"📊 Your final score: {self.score}/{self.question_number}\n" \
+                   "Click /start to start a new quiz, /change_topic, /change_difficulty or view /stats"
             bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
             self.game_is_over = True
             return
