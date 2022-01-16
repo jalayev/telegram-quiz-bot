@@ -393,15 +393,16 @@ def respond():
             (userid,)).fetchall()
         print(f"\nstats_rows:\n {stats_rows} \n")
         if len(stats_rows) == 0:
-            msg = "Sadly, you haven't played anything or there is something wrong with the statistics."
+            msg = "Sadly, you haven't played anything or there is something wrong with statistics."
             bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         else:
             msg = ""
             for user in stats_rows:
                 if user[3] != "0/0":
                     msg += f"User: {user[0]} | difficulty: {user[1]} | topic: {user[2]} | score: {user[3]}\n"
-            if msg != "":
-                bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
+            if msg == "":
+                msg = "Sadly, you haven't played anything or there is something wrong with statistics."
+            bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
     else:
         msg = "Not allowed input. Please click /start to start the quiz or answer the question with '/true' or '/false'"
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
