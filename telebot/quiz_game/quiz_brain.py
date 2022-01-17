@@ -30,7 +30,7 @@ class QuizBrain:
 
     def next_question(self, bot, chat_id, msg_id):
         if not self.has_questions():
-            msg = "✨🏆✨ There is no more questions, you win ✨🏆✨\n" \
+            msg = "✨🏆✨ There is no more questions, you win! ✨🏆✨\n" \
                   f"📊 Your final score: {self.score}/{self.question_number}\n" \
                    "Click /start to start a new quiz, /change_topic, /change_difficulty or view /stats"
             bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)

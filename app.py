@@ -382,10 +382,10 @@ def respond():
               "Enter 'quit' to quit or answer the question with '/true' or '/false'"
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
     elif text == "/help":
-        msg = "You can change the settings with /change_topic and /change_difficulty and click /start to play.\n" \
+        msg = "⚙ You can change the settings with /change_topic and /change_difficulty and click /start to play.\n" \
               "Type 'quit' to quit the game.\n" \
               "Settings can be changed only if the Quiz is not started.\n" \
-              "Contact bot creator on telegram: @tima_1j"
+              "bot creator's telegram username: @tima_1j ⚙"
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
     elif text == "/stats":
         stats_rows = cur_stats.execute(
