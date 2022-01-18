@@ -86,33 +86,33 @@ def respond():
     cur_stats.execute("CREATE TABLE IF NOT EXISTS stats (id INTEGER, username TEXT, "
                       "topic TEXT, difficulty TEXT, score TEXT, "
                       "UNIQUE(id, topic, difficulty))")
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'general', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'general', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'general', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'general', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'general', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'general', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
 
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'history', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'history', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'history', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'history', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'history', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'history', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
 
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'science', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'science', 'normal', '0/0' ON CONFLICT (id, topic, difficulty) DO NOTHING)", (userid, username))
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'science', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'science', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'science', 'normal', '0/0' ON CONFLICT (id, topic, difficulty) DO NOTHING)", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'science', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
 
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'nature', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'nature', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'nature', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'nature', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'nature', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'nature', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
 
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'animation', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'animation', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'animation', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'animation', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'animation', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'animation', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
 
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'games', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'games', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'games', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'games', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'games', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'games', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
 
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'films_tv', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'films_tv', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
-    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'films_tv', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'films_tv', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'films_tv', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'films_tv', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
 
     # quiz_db table - first connection (insert row with unique chat_id)
     connection = psycopg2.connect(
@@ -125,10 +125,10 @@ def respond():
     cursor.execute("CREATE TABLE IF NOT EXISTS quiz_db (chat_id INT, game_started TEXT, quiz BYTEA, "
                    "chosen_topic TEXT, chosen_difficulty TEXT, lives_num INTEGER, "
                    "UNIQUE(chat_id))")
-    cursor.execute("INSERT INTO quiz_db VALUES (?, 'false', ?, 'general', 'normal', 5) ON CONFLICT (chat_id) DO NOTHING", (chat_id, pickled_quiz))
+    cursor.execute("INSERT INTO quiz_db VALUES (%s, 'false', %s, 'general', 'normal', 5) ON CONFLICT (chat_id) DO NOTHING", (chat_id, pickled_quiz))
     # consequent connections (read)
     rows = cursor.execute(
-        "SELECT game_started, quiz, chosen_topic, chosen_difficulty, lives_num FROM quiz_db WHERE chat_id = ?",
+        "SELECT game_started, quiz, chosen_topic, chosen_difficulty, lives_num FROM quiz_db WHERE chat_id = %s",
         (chat_id,)).fetchall()
     print(rows)
     game_started_str = rows[0][0]
@@ -165,7 +165,7 @@ def respond():
         # update quiz_db sqlite table
         pickled_quiz = pickle.dumps(quiz)
         cursor.execute(
-            "UPDATE quiz_db SET game_started = ?, quiz = ? WHERE chat_id = ?",
+            "UPDATE quiz_db SET game_started = %s, quiz = %s WHERE chat_id = %s",
             ('true', pickled_quiz, chat_id)
         )
     elif text == "/change_difficulty" and not game_started:
@@ -182,7 +182,7 @@ def respond():
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
-            "UPDATE quiz_db SET chosen_difficulty = ?, lives_num = ? WHERE chat_id = ?",
+            "UPDATE quiz_db SET chosen_difficulty = %s, lives_num = %s WHERE chat_id = %s",
             (chosen_difficulty, lives_num, chat_id)
         )
     elif text == "/normal" and not game_started:
@@ -193,7 +193,7 @@ def respond():
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
-            "UPDATE quiz_db   SET chosen_difficulty = ?, lives_num = ? WHERE chat_id = ?",
+            "UPDATE quiz_db   SET chosen_difficulty = %s, lives_num = %s WHERE chat_id = %s",
             (chosen_difficulty, lives_num, chat_id)
         )
     elif text == "/hard" and not game_started:
@@ -204,7 +204,7 @@ def respond():
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
-            "UPDATE quiz_db SET chosen_difficulty = ?, lives_num = ? WHERE chat_id = ?",
+            "UPDATE quiz_db SET chosen_difficulty = %s, lives_num = %s WHERE chat_id = %s",
             (chosen_difficulty, lives_num, chat_id)
         )
     elif text == "/change_topic" and not game_started:
@@ -224,7 +224,7 @@ def respond():
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
-            "UPDATE quiz_db SET chosen_topic = ? WHERE chat_id = ?",
+            "UPDATE quiz_db SET chosen_topic = %s WHERE chat_id = %s",
             (chosen_topic, chat_id)
         )
     elif text == "/science" and not game_started:
@@ -233,7 +233,7 @@ def respond():
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
-            "UPDATE quiz_db SET chosen_topic = ? WHERE chat_id = ?",
+            "UPDATE quiz_db SET chosen_topic = %s WHERE chat_id = %s",
             (chosen_topic, chat_id)
         )
     elif text == "/nature" and not game_started:
@@ -242,7 +242,7 @@ def respond():
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
-            "UPDATE quiz_db SET chosen_topic = ? WHERE chat_id = ?",
+            "UPDATE quiz_db SET chosen_topic = %s WHERE chat_id = %s",
             (chosen_topic, chat_id)
         )
     elif text == "/history" and not game_started:
@@ -251,7 +251,7 @@ def respond():
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
-            "UPDATE quiz_db SET chosen_topic = ? WHERE chat_id = ?",
+            "UPDATE quiz_db SET chosen_topic = %s WHERE chat_id = %s",
             (chosen_topic, chat_id)
         )
     elif text == "/animation" and not game_started:
@@ -260,7 +260,7 @@ def respond():
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
-            "UPDATE quiz_db SET chosen_topic = ? WHERE chat_id = ?",
+            "UPDATE quiz_db SET chosen_topic = %s WHERE chat_id = %s",
             (chosen_topic, chat_id)
         )
     elif text == "/games" and not game_started:
@@ -269,7 +269,7 @@ def respond():
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
-            "UPDATE quiz_db SET chosen_topic = ? WHERE chat_id = ?",
+            "UPDATE quiz_db SET chosen_topic = %s WHERE chat_id = %s",
             (chosen_topic, chat_id)
         )
     elif text == "/films_tv" and not game_started:
@@ -278,7 +278,7 @@ def respond():
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
-            "UPDATE quiz_db SET chosen_topic = ? WHERE chat_id = ?",
+            "UPDATE quiz_db SET chosen_topic = %s WHERE chat_id = %s",
             (chosen_topic, chat_id)
         )
     elif text.lower() == 'quit' and game_started:
@@ -289,13 +289,13 @@ def respond():
         game_started = False
         # update quiz_db sqlite table
         cursor.execute(
-            "UPDATE quiz_db SET game_started = ? WHERE chat_id = ?",
+            "UPDATE quiz_db SET game_started = %s WHERE chat_id = %s",
             ('false', chat_id)
         )
         # update stats sqlite table
         final_score = f"{quiz.score}/{quiz.question_number}"
         stats_score = cur_stats.execute(
-            "SELECT score FROM stats WHERE id = ? AND topic = ? AND difficulty = ?",
+            "SELECT score FROM stats WHERE id = %s AND topic = %s AND difficulty = %s",
             (userid, chosen_topic, chosen_difficulty)
         ).fetchall()
         final_score_int = str_score_to_int(final_score)
@@ -303,7 +303,7 @@ def respond():
         print(f"Final score = {final_score_int}, stats_score = {stats_score_int}")
         if final_score_int > stats_score_int:
             cur_stats.execute(
-                "UPDATE stats SET score = ? WHERE id = ? AND topic = ? AND difficulty = ?",
+                "UPDATE stats SET score = %s WHERE id = %s AND topic = %s AND difficulty = %s",
                 (final_score, userid, chosen_topic, chosen_difficulty)
             )
     elif (text.lower() == "true" or text == '/true') and game_started:
@@ -317,13 +317,13 @@ def respond():
             game_started = False
             # update quiz_db sqlite table
             cursor.execute(
-                "UPDATE quiz_db SET game_started = ? WHERE chat_id = ?",
+                "UPDATE quiz_db SET game_started = %s WHERE chat_id = %s",
                 ('false', chat_id)
             )
             # update stats sqlite table
             final_score = f"{quiz.score}/{quiz.question_number}"
             stats_score = cur_stats.execute(
-                "SELECT score FROM stats WHERE id = ? AND topic = ? AND difficulty = ?",
+                "SELECT score FROM stats WHERE id = %s AND topic = %s AND difficulty = %s",
                 (userid, chosen_topic, chosen_difficulty)
             ).fetchall()
             final_score_int = str_score_to_int(final_score)
@@ -331,7 +331,7 @@ def respond():
             print(f"Final score = {final_score_int}, stats_score = {stats_score_int}")
             if final_score_int > stats_score_int:
                 cur_stats.execute(
-                    "UPDATE stats SET score = ? WHERE id = ? AND topic = ? AND difficulty = ?",
+                    "UPDATE stats SET score = %s WHERE id = %s AND topic = %s AND difficulty = %s",
                     (final_score, userid, chosen_topic, chosen_difficulty)
                 )
         else:
@@ -342,7 +342,7 @@ def respond():
             # update quiz_db sqlite table
             pickled_quiz = pickle.dumps(quiz)
             cursor.execute(
-                "UPDATE quiz_db SET quiz = ? WHERE chat_id = ?",
+                "UPDATE quiz_db SET quiz = %s WHERE chat_id = %s",
                 (pickled_quiz, chat_id)
             )
     elif (text.lower() == "false" or text == "/false") and game_started:
@@ -356,13 +356,13 @@ def respond():
             game_started = False
             # update quiz_db sqlite table
             cursor.execute(
-                "UPDATE quiz_db SET game_started = ? WHERE chat_id = ?",
+                "UPDATE quiz_db SET game_started = %s WHERE chat_id = %s",
                 ('false', chat_id)
             )
             # update stats sqlite table
             final_score = f"{quiz.score}/{quiz.question_number}"
             stats_score = cur_stats.execute(
-                "SELECT score FROM stats WHERE id = ? AND topic = ? AND difficulty = ?",
+                "SELECT score FROM stats WHERE id = %s AND topic = %s AND difficulty = %s",
                 (userid, chosen_topic, chosen_difficulty)
             ).fetchall()
             final_score_int = str_score_to_int(final_score)
@@ -370,7 +370,7 @@ def respond():
             print(f"Final score = {final_score_int}, stats_score = {stats_score_int}")
             if final_score_int > stats_score_int:
                 cur_stats.execute(
-                    "UPDATE stats SET score = ? WHERE id = ? AND topic = ? AND difficulty = ?",
+                    "UPDATE stats SET score = %s WHERE id = %s AND topic = %s AND difficulty = %s",
                     (final_score, userid, chosen_topic, chosen_difficulty)
                 )
         else:
@@ -381,7 +381,7 @@ def respond():
             # update quiz_db sqlite table
             pickled_quiz = pickle.dumps(quiz)
             cursor.execute(
-                "UPDATE quiz_db SET quiz = ? WHERE chat_id = ?",
+                "UPDATE quiz_db SET quiz = %s WHERE chat_id = %s",
                 (pickled_quiz, chat_id)
             )
     elif text == "/start" and game_started:
@@ -403,7 +403,7 @@ def respond():
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
     elif text == "/stats":
         stats_rows = cur_stats.execute(
-            "SELECT username, difficulty, topic, score FROM stats WHERE id = ?",
+            "SELECT username, difficulty, topic, score FROM stats WHERE id = %s",
             (userid,)).fetchall()
         print(f"\nstats_rows:\n {stats_rows} \n")
         if len(stats_rows) == 0:
