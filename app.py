@@ -423,7 +423,7 @@ def respond():
               "Type 'quit' to quit the game.\n" \
               "Game settings can be changed only if the Quiz is not started.\n" \
               "Click /stats to view statistics or /clear_stats to erase every game record.\n" \
-              "~~~This bot runs on heroku servers~~~" \
+              "~~~This bot runs on heroku servers~~~\n" \
               "For any questions contact bot creator on telegram: @tima_1j ⚙"
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
     elif text == "/stats":
