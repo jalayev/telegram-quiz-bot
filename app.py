@@ -212,8 +212,7 @@ def respond():
         """
         # send the welcoming message
         bot.sendMessage(chat_id=chat_id, text=bot_welcome, reply_to_message_id=msg_id)
-        del quiz  # ###                put lives num
-        quiz = quiz_start(chosen_topic, 1000)
+        quiz = quiz_start(chosen_topic, lives_num)
         quiz.next_question(bot, chat_id, msg_id)
         game_started = True
         # update quiz_db table
@@ -424,7 +423,8 @@ def respond():
               "Type 'quit' to quit the game.\n" \
               "Game settings can be changed only if the Quiz is not started.\n" \
               "Click /stats to view statistics or /clear_stats to erase every game record.\n" \
-              "Bot creator's telegram username: @tima_1j ⚙"
+              "~~~This bot runs on heroku servers~~~" \
+              "For any questions contact bot creator on telegram: @tima_1j ⚙"
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
     elif text == "/stats":
         cur_stats.execute(
