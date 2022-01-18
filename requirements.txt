@@ -51,3 +51,7 @@ urllib3==1.26.7
 Werkzeug==2.0.2
 wrapt==1.12.1
 yapf==0.31.0
+
+pip~=21.3.1
+wheel~=0.36.2
+setuptools~=57.0.0

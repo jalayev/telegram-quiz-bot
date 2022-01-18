@@ -1,29 +1,17 @@
-import logging
-
 from flask import Flask, request
+
 import telegram
-from telebot.credentials import bot_token, bot_user_name, URL
+from telebot.credentials import bot_token, URL
 from telebot.quiz_game.quiz_main import quiz_start
 
 import pickle
 import psycopg2
 
-
-# logging.basicConfig(
-#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
-# )
-# logger = logging.getLogger(__name__)
-
-# global bot
-# global TOKEN
 TOKEN = bot_token
 bot = telegram.Bot(token=TOKEN)
 
 # start the flask app
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:010209500714@localhost/tg_quizbot_db'
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-# app.secret_key = 'secret string'
 
 # Quiz content
 game_started = False
@@ -61,46 +49,7 @@ def update_stats_table(cur_stats, cur_quiz, userid, topic, difficulty):
         )
 
 
-@app.route('/{}'.format(TOKEN), methods=['POST'])
-def respond():
-    # print(" \n ---local port--- \n")  # testing
-    print(" \n ---heroku server--- \n")  # testing
-    global game_started
-    global quiz
-    global chosen_topic
-    global chosen_difficulty
-    global lives_num
-    # retrieve the message in JSON and then transform it to Telegram object
-    update = telegram.Update.de_json(request.get_json(force=True), bot)
-
-    chat_id = update.effective_message.chat_id
-    msg_id = update.effective_message.message_id
-
-    # Telegram understands UTF-8, so encode text for unicode compatibility
-    text = update.effective_message.text.encode('utf-8').decode()
-
-    # Pickling quiz object (to store its last state)
-    pickled_quiz = pickle.dumps(quiz)
-    # quiz = pickle.loads(pickled_quiz)  # unpickle it later
-
-    username = update.message.from_user.first_name
-    userid = update.message.from_user.id
-    print("Bot is currently used by " + username + " userid: " + str(userid))
-    # --- PostgreSql DB ---
-    # db_string = "postgres://qfcagbtgogiiqe:07bfd9a462edc706c037450f12c08ac4cc6934a2ed060f4a6ccc6e78a1c09e2d@ec2-99-81-177-233.eu-west-1.compute.amazonaws.com:5432/di7qmaduus4kp"
-    # db_string = "postgresql://postgres:010209500714@localhost/tg_quizbot_db"  # local
-    # db = create_engine(db_string)
-    # print(db)
-    # stats table
-    con_stats = psycopg2.connect(
-        host="ec2-99-81-177-233.eu-west-1.compute.amazonaws.com",
-        database="di7qmaduus4kp",
-        user="qfcagbtgogiiqe",
-        password="07bfd9a462edc706c037450f12c08ac4cc6934a2ed060f4a6ccc6e78a1c09e2d")
-    cur_stats = con_stats.cursor()
-    cur_stats.execute("CREATE TABLE IF NOT EXISTS stats (id INTEGER, username TEXT, "
-                      "topic TEXT, difficulty TEXT, score TEXT, "
-                      "UNIQUE(id, topic, difficulty))")
+def create_stats_table(cur_stats, userid, username):
     cur_stats.execute(
         "INSERT INTO stats VALUES (%s, %s, 'general', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING",
         (userid, username))
@@ -171,6 +120,44 @@ def respond():
         "INSERT INTO stats VALUES (%s, %s, 'films_tv', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING",
         (userid, username))
 
+
+@app.route('/{}'.format(TOKEN), methods=['POST'])
+def respond():
+    print(" \n ---heroku server--- \n")  # testing
+    global game_started
+    global quiz
+    # Pickling quiz object (to store its last state)
+    pickled_quiz = pickle.dumps(quiz)
+    global chosen_topic
+    global chosen_difficulty
+    global lives_num
+
+    # retrieve the message in JSON and then transform it to Telegram object
+    update = telegram.Update.de_json(request.get_json(force=True), bot)
+
+    chat_id = update.effective_message.chat_id
+    msg_id = update.effective_message.message_id
+
+    # Telegram understands UTF-8, so encode text for unicode compatibility
+    text = update.effective_message.text.encode('utf-8').decode()
+
+    username = update.message.from_user.first_name
+    userid = update.message.from_user.id
+    print("Bot is currently used by " + username + " userid: " + str(userid))
+
+    # --- PostgreSql DB ---
+    # stats table
+    con_stats = psycopg2.connect(
+        host="ec2-99-81-177-233.eu-west-1.compute.amazonaws.com",
+        database="di7qmaduus4kp",
+        user="qfcagbtgogiiqe",
+        password="07bfd9a462edc706c037450f12c08ac4cc6934a2ed060f4a6ccc6e78a1c09e2d")
+    cur_stats = con_stats.cursor()
+    cur_stats.execute("CREATE TABLE IF NOT EXISTS stats (id INTEGER, username TEXT, "
+                      "topic TEXT, difficulty TEXT, score TEXT, "
+                      "UNIQUE(id, topic, difficulty))")
+    create_stats_table(cur_stats, userid, username)
+
     # quiz_db table - first connection (insert row with unique chat_id)
     connection = psycopg2.connect(
         host="ec2-99-81-177-233.eu-west-1.compute.amazonaws.com",
@@ -192,6 +179,7 @@ def respond():
     print(rows)
 
     game_started_str = rows[0][0]
+    print(game_started_str)
     if game_started_str == "false":
         game_started = False
     elif game_started_str == "true":
@@ -202,8 +190,11 @@ def respond():
     print(quiz)
 
     chosen_topic = rows[0][2]
+    print(chosen_topic)
     chosen_difficulty = rows[0][3]
+    print(chosen_difficulty)
     lives_num = rows[0][4]
+    print(f"Current lives: {lives_num}")
 
     # for debugging purposes only
     print("got text message :", text)
@@ -451,7 +442,7 @@ def respond():
                 if user[3] != "0/0":
                     msg += f"User: {user[0]} | difficulty: {user[1]} | topic: {user[2]} | score: {user[3]}\n"
             if msg == "":
-                msg = "Sadly, you haven't played anything or there is something wrong with statistics."
+                msg = "Sadly, you either haven't played anything or called /clear_stats or there is something wrong with statistics (see /help)."
             bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
     elif text == "/clear_stats":
         cur_stats.execute("DROP TABLE stats")

@@ -27,9 +27,7 @@ class QuizBrain:
         correct_answer += f"The correct answer was: {self.current_question.answer}."
         bot.sendMessage(chat_id=chat_id, text=correct_answer, reply_to_message_id=msg_id)
         print(f"\nCurrent question: {self.current_question}")
-        print(f"Contents before deletion: {self}")
         self.question_list.remove(self.current_question)
-        print(f"Contents after deletion: {self}\n")
 
     def next_question(self, bot, chat_id, msg_id):
         if not self.has_questions():
