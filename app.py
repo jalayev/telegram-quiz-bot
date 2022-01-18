@@ -126,9 +126,10 @@ def respond():
                    "UNIQUE(chat_id))")
     cursor.execute("INSERT INTO quiz_db VALUES (%s, 'false', %s, 'general', 'normal', 5) ON CONFLICT (chat_id) DO NOTHING", (chat_id, pickled_quiz))
     # consequent connections (read)
-    rows = cursor.execute(
+    cursor.execute(
         "SELECT game_started, quiz, chosen_topic, chosen_difficulty, lives_num FROM quiz_db WHERE chat_id = %s",
-        (chat_id,)).fetchall()
+        (chat_id,))
+    rows = cursor.fetchall()
     print(rows)
     game_started_str = rows[0][0]
     if game_started_str == "false":
@@ -293,10 +294,11 @@ def respond():
         )
         # update stats sqlite table
         final_score = f"{quiz.score}/{quiz.question_number}"
-        stats_score = cur_stats.execute(
+        cur_stats.execute(
             "SELECT score FROM stats WHERE id = %s AND topic = %s AND difficulty = %s",
             (userid, chosen_topic, chosen_difficulty)
-        ).fetchall()
+        )
+        stats_score = cur_stats.fetchall()
         final_score_int = str_score_to_int(final_score)
         stats_score_int = str_score_to_int(stats_score[0][0])
         print(f"Final score = {final_score_int}, stats_score = {stats_score_int}")
@@ -321,10 +323,11 @@ def respond():
             )
             # update stats sqlite table
             final_score = f"{quiz.score}/{quiz.question_number}"
-            stats_score = cur_stats.execute(
+            cur_stats.execute(
                 "SELECT score FROM stats WHERE id = %s AND topic = %s AND difficulty = %s",
                 (userid, chosen_topic, chosen_difficulty)
-            ).fetchall()
+            )
+            stats_score = cur_stats.fetchall()
             final_score_int = str_score_to_int(final_score)
             stats_score_int = str_score_to_int(stats_score[0][0])
             print(f"Final score = {final_score_int}, stats_score = {stats_score_int}")
@@ -360,10 +363,11 @@ def respond():
             )
             # update stats sqlite table
             final_score = f"{quiz.score}/{quiz.question_number}"
-            stats_score = cur_stats.execute(
+            cur_stats.execute(
                 "SELECT score FROM stats WHERE id = %s AND topic = %s AND difficulty = %s",
                 (userid, chosen_topic, chosen_difficulty)
-            ).fetchall()
+            )
+            stats_score = cur_stats.fetchall()
             final_score_int = str_score_to_int(final_score)
             stats_score_int = str_score_to_int(stats_score[0][0])
             print(f"Final score = {final_score_int}, stats_score = {stats_score_int}")
@@ -401,9 +405,11 @@ def respond():
               "bot creator's telegram username: @tima_1j ⚙"
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
     elif text == "/stats":
-        stats_rows = cur_stats.execute(
+        cur_stats.execute(
             "SELECT username, difficulty, topic, score FROM stats WHERE id = %s",
-            (userid,)).fetchall()
+            (userid,))
+        stats_rows = cur_stats.fetchall()
+
         print(f"\nstats_rows:\n {stats_rows} \n")
         if len(stats_rows) == 0:
             msg = "Sadly, you haven't played anything or there is something wrong with statistics."
