@@ -8,7 +8,8 @@ from telebot.credentials import bot_token, bot_user_name, URL
 from telebot.quiz_game.quiz_main import quiz_start
 
 import pickle
-import sqlite3
+import psycopg2
+from sqlalchemy import create_engine
 from contextlib import closing
 
 logging.basicConfig(
@@ -23,6 +24,9 @@ bot = telegram.Bot(token=TOKEN)
 
 # start the flask app
 app = Flask(__name__)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:010209500714@localhost/tg_quizbot_db'
+# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# app.secret_key = 'secret string'
 
 # Quiz content
 game_started = False
@@ -67,9 +71,13 @@ def respond():
     username = update.message.from_user.first_name
     userid = update.message.from_user.id
     print("Bot is currently used by " + username + " userid: " + str(userid))
-    # --- SQLite DB ---
-    # stats.db
-    con_stats = sqlite3.connect("stats.db")
+    # --- PostgreSql DB ---
+    db_string = "postgres://qfcagbtgogiiqe:07bfd9a462edc706c037450f12c08ac4cc6934a2ed060f4a6ccc6e78a1c09e2d@ec2-99-81-177-233.eu-west-1.compute.amazonaws.com:5432/di7qmaduus4kp"
+    # db_string = "postgresql://postgres:010209500714@localhost/tg_quizbot_db"  # local
+    db = create_engine(db_string)
+    print(db)
+    # stats table
+    con_stats = db.connect()
     cur_stats = con_stats.cursor()
     cur_stats.execute("CREATE TABLE IF NOT EXISTS stats (id INTEGER, username TEXT, "
                       "topic TEXT, difficulty TEXT, score TEXT, "
@@ -102,13 +110,11 @@ def respond():
     cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'films_tv', 'normal', '0/0')", (userid, username))
     cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'films_tv', 'hard', '0/0')", (userid, username))
 
-
-
-    # database.db - first connection (insert row with unique chat_id)
-    connection = sqlite3.connect("database.db")
+    # quiz_db table - first connection (insert row with unique chat_id)
+    connection = db.connect()
     print(" -chat_id: " + str(chat_id) + ", connection.total_changes: " + str(connection.total_changes))
     cursor = connection.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS quiz_db (chat_id INTEGER, game_started TEXT, quiz BLOB, "
+    cursor.execute("CREATE TABLE IF NOT EXISTS quiz_db (chat_id INT, game_started TEXT, quiz BYTEA, "
                    "chosen_topic TEXT, chosen_difficulty TEXT, lives_num INTEGER, "
                    "UNIQUE(chat_id))")
     cursor.execute("INSERT OR IGNORE INTO quiz_db VALUES (?, 'false', ?, 'general', 'normal', 5)", (chat_id, pickled_quiz))
@@ -179,7 +185,7 @@ def respond():
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
-            "UPDATE quiz_db SET chosen_difficulty = ?, lives_num = ? WHERE chat_id = ?",
+            "UPDATE quiz_db   SET chosen_difficulty = ?, lives_num = ? WHERE chat_id = ?",
             (chosen_difficulty, lives_num, chat_id)
         )
     elif text == "/hard" and not game_started:
@@ -408,20 +414,12 @@ def respond():
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
 
     con_stats.commit()
-    with closing(sqlite3.connect("stats.db")) as con_stats:
-        with closing(con_stats.cursor()) as cur_stats:
-            rows = cur_stats.execute("SELECT 1").fetchall()
-            print(rows)
-            print("-stats.db closed-")
+    con_stats.close()
+    cur_stats.close()
 
     connection.commit()
-    # close sqlite db objects
-    print(" -(closing) chat_id: " + str(chat_id) + ", connection.total_changes: " + str(connection.total_changes))
-    with closing(sqlite3.connect("database.db")) as connection:
-        with closing(connection.cursor()) as cursor:
-            rows = cursor.execute("SELECT 1").fetchall()
-            print(rows)
-            print("-database.db closed-")
+    connection.close()
+    cursor.close()
 
     return 'ok'
 
@@ -445,22 +443,3 @@ def index():
 
 if __name__ == '__main__':
     app.run(threaded=True)
-
-# button implementation
-# elif text == "buttons":
-#     keyboard = [
-#         [
-#             InlineKeyboardButton("True", callback_data='true'),
-#             InlineKeyboardButton("False", callback_data='false'),
-#         ]
-#     ]
-#     reply_markup = InlineKeyboardMarkup(keyboard)
-#     update.effective_message.reply_text('Please choose:', reply_markup=reply_markup) # elif text == "buttons":
-#     #     keyboard = [
-#     #         [
-#     #             InlineKeyboardButton("True", callback_data='true'),
-#     #             InlineKeyboardButton("False", callback_data='false'),
-#     #         ]
-#     #     ]
-#     #     reply_markup = InlineKeyboardMarkup(keyboard)
-#     #     update.effective_message.reply_text('Please choose:', reply_markup=reply_markup)
