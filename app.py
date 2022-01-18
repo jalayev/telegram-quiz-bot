@@ -152,8 +152,6 @@ def respond():
     # the first time you chat with the bot AKA the welcoming message
     if quiz.game_is_over:
         game_started = False
-    else:
-        game_started = True
 
     if text == "/start" and not game_started:
         # print the welcoming message
