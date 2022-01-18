@@ -120,7 +120,6 @@ def respond():
         database="di7qmaduus4kp",
         user="qfcagbtgogiiqe",
         password="07bfd9a462edc706c037450f12c08ac4cc6934a2ed060f4a6ccc6e78a1c09e2d")
-    print(" -chat_id: " + str(chat_id) + ", connection.total_changes: " + str(connection.total_changes))
     cursor = connection.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS quiz_db (chat_id INT, game_started TEXT, quiz BYTEA, "
                    "chosen_topic TEXT, chosen_difficulty TEXT, lives_num INTEGER, "
