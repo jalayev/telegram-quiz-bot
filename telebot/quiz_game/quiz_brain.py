@@ -48,6 +48,5 @@ class QuizBrain:
     def __repr__(self):
         res = ""
         for question in self.question_list:
-            res += question
-            res += "\n"
+            res += f"Text: {question.text}, answer: {question.answer}.\n"
         return res
