@@ -95,7 +95,7 @@ def respond():
     cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'history', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
 
     cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'science', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
-    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'science', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING)", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'science', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
     cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'science', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
 
     cur_stats.execute("INSERT INTO stats VALUES (%s, %s, 'nature', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
