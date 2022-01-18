@@ -131,13 +131,17 @@ def respond():
         (chat_id,))
     rows = cursor.fetchall()
     print(rows)
+
     game_started_str = rows[0][0]
     if game_started_str == "false":
         game_started = False
     elif game_started_str == "true":
         game_started = True
+
     pickled_quiz = rows[0][1]
     quiz = pickle.loads(pickled_quiz)
+    print(quiz)
+
     chosen_topic = rows[0][2]
     chosen_difficulty = rows[0][3]
     lives_num = rows[0][4]
@@ -158,8 +162,8 @@ def respond():
         """
         # send the welcoming message
         bot.sendMessage(chat_id=chat_id, text=bot_welcome, reply_to_message_id=msg_id)
-        del quiz  # ###
-        quiz = quiz_start(chosen_topic, lives_num)
+        del quiz  # ###                put lives num
+        quiz = quiz_start(chosen_topic, 1000)
         quiz.next_question(bot, chat_id, msg_id)
         game_started = True
         # update quiz_db sqlite table
@@ -220,7 +224,7 @@ def respond():
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
     elif text == "/general" and not game_started:
         chosen_topic = "general"
-        msg = f"Successfully selected topic: {chosen_topic}"
+        msg = f"Successfully selected topic: {chosen_topic}.\nClick /start to start the game..\nClick /start to start the game."
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
@@ -229,7 +233,7 @@ def respond():
         )
     elif text == "/science" and not game_started:
         chosen_topic = "science"
-        msg = f"Successfully selected topic: {chosen_topic}"
+        msg = f"Successfully selected topic: {chosen_topic}.\nClick /start to start the game..\nClick /start to start the game."
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
@@ -238,7 +242,7 @@ def respond():
         )
     elif text == "/nature" and not game_started:
         chosen_topic = "nature"
-        msg = f"Successfully selected topic: {chosen_topic}"
+        msg = f"Successfully selected topic: {chosen_topic}.\nClick /start to start the game..\nClick /start to start the game."
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
@@ -247,7 +251,7 @@ def respond():
         )
     elif text == "/history" and not game_started:
         chosen_topic = "history"
-        msg = f"Successfully selected topic: {chosen_topic}"
+        msg = f"Successfully selected topic: {chosen_topic}.\nClick /start to start the game..\nClick /start to start the game."
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
@@ -256,7 +260,7 @@ def respond():
         )
     elif text == "/animation" and not game_started:
         chosen_topic = "animation"
-        msg = f"Successfully selected topic: {chosen_topic}"
+        msg = f"Successfully selected topic: {chosen_topic}.\nClick /start to start the game..\nClick /start to start the game."
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
@@ -265,7 +269,7 @@ def respond():
         )
     elif text == "/games" and not game_started:
         chosen_topic = "games"
-        msg = f"Successfully selected topic: {chosen_topic}"
+        msg = f"Successfully selected topic: {chosen_topic}.\nClick /start to start the game."
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
@@ -274,7 +278,7 @@ def respond():
         )
     elif text == "/films_tv" and not game_started:
         chosen_topic = "films_tv"
-        msg = f"Successfully selected topic: {chosen_topic}"
+        msg = f"Successfully selected topic: {chosen_topic}.\nClick /start to start the game."
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(

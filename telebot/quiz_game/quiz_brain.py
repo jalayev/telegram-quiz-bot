@@ -26,7 +26,9 @@ class QuizBrain:
                 self.game_is_over = True
         correct_answer += f"The correct answer was: {self.current_question.answer}."
         bot.sendMessage(chat_id=chat_id, text=correct_answer, reply_to_message_id=msg_id)
+        print(f"\nContents before deletion: {self}")
         del self.current_question
+        print(f"Contents after deletion: {self}\n")
 
     def next_question(self, bot, chat_id, msg_id):
         if not self.has_questions():
@@ -42,3 +44,10 @@ class QuizBrain:
 
         question_text = f"Q.{self.question_number}: {self.current_question.text} /true or /false ❔: "
         bot.sendMessage(chat_id=chat_id, text=question_text, reply_to_message_id=msg_id)
+
+    def __repr__(self):
+        res = ""
+        for question in self.question_list:
+            res += question
+            res += "\n"
+        return res
