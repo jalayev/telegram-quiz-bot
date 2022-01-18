@@ -12,7 +12,7 @@ class QuizBrain:
         self.current_question = self.question_list[0]
 
     def has_questions(self):
-        return self.question_number < len(self.question_list)
+        return len(self.question_list) != 0
 
     def check_answer(self, bot, chat_id, msg_id, user_answer):
         correct_answer = ""
@@ -26,8 +26,9 @@ class QuizBrain:
                 self.game_is_over = True
         correct_answer += f"The correct answer was: {self.current_question.answer}."
         bot.sendMessage(chat_id=chat_id, text=correct_answer, reply_to_message_id=msg_id)
-        print(f"\nContents before deletion: {self}")
-        del self.current_question
+        print(f"\nCurrent question: {self.current_question}")
+        print(f"Contents before deletion: {self}")
+        self.question_list.remove(self.current_question)
         print(f"Contents after deletion: {self}\n")
 
     def next_question(self, bot, chat_id, msg_id):

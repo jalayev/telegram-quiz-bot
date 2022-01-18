@@ -152,6 +152,21 @@ def respond():
     # the first time you chat with the bot AKA the welcoming message
     if quiz.game_is_over:
         game_started = False
+        # update stats table
+        final_score = f"{quiz.score}/{quiz.question_number}"
+        cur_stats.execute(
+            "SELECT score FROM stats WHERE id = %s AND topic = %s AND difficulty = %s",
+            (userid, chosen_topic, chosen_difficulty)
+        )
+        stats_score = cur_stats.fetchall()
+        final_score_int = str_score_to_int(final_score)
+        stats_score_int = str_score_to_int(stats_score[0][0])
+        print(f"Final score = {final_score_int}, stats_score = {stats_score_int}")
+        if final_score_int > stats_score_int:
+            cur_stats.execute(
+                "UPDATE stats SET score = %s WHERE id = %s AND topic = %s AND difficulty = %s",
+                (final_score, userid, chosen_topic, chosen_difficulty)
+            )
 
     if text == "/start" and not game_started:
         # print the welcoming message
@@ -224,7 +239,7 @@ def respond():
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
     elif text == "/general" and not game_started:
         chosen_topic = "general"
-        msg = f"Successfully selected topic: {chosen_topic}.\nClick /start to start the game..\nClick /start to start the game."
+        msg = f"Successfully selected topic: {chosen_topic}.\nClick /start to start the game."
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
@@ -233,7 +248,7 @@ def respond():
         )
     elif text == "/science" and not game_started:
         chosen_topic = "science"
-        msg = f"Successfully selected topic: {chosen_topic}.\nClick /start to start the game..\nClick /start to start the game."
+        msg = f"Successfully selected topic: {chosen_topic}.\nClick /start to start the game."
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
@@ -242,7 +257,7 @@ def respond():
         )
     elif text == "/nature" and not game_started:
         chosen_topic = "nature"
-        msg = f"Successfully selected topic: {chosen_topic}.\nClick /start to start the game..\nClick /start to start the game."
+        msg = f"Successfully selected topic: {chosen_topic}.\nClick /start to start the game."
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
@@ -251,7 +266,7 @@ def respond():
         )
     elif text == "/history" and not game_started:
         chosen_topic = "history"
-        msg = f"Successfully selected topic: {chosen_topic}.\nClick /start to start the game..\nClick /start to start the game."
+        msg = f"Successfully selected topic: {chosen_topic}.\nClick /start to start the game."
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
@@ -260,7 +275,7 @@ def respond():
         )
     elif text == "/animation" and not game_started:
         chosen_topic = "animation"
-        msg = f"Successfully selected topic: {chosen_topic}.\nClick /start to start the game..\nClick /start to start the game."
+        msg = f"Successfully selected topic: {chosen_topic}.\nClick /start to start the game."
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
         # update quiz_db sqlite table
         cursor.execute(
@@ -365,7 +380,7 @@ def respond():
                 "UPDATE quiz_db SET game_started = %s WHERE chat_id = %s",
                 ('false', chat_id)
             )
-            # update stats sqlite table
+            # update stats table
             final_score = f"{quiz.score}/{quiz.question_number}"
             cur_stats.execute(
                 "SELECT score FROM stats WHERE id = %s AND topic = %s AND difficulty = %s",
@@ -405,8 +420,9 @@ def respond():
     elif text == "/help":
         msg = "⚙ You can change the settings with /change_topic and /change_difficulty and click /start to play.\n" \
               "Type 'quit' to quit the game.\n" \
-              "Settings can be changed only if the Quiz is not started.\n" \
-              "bot creator's telegram username: @tima_1j ⚙"
+              "Game settings can be changed only if the Quiz is not started.\n" \
+              "Click \stats to view statistics or /clear_stats to erase every game record.\n" \
+              "Bot creator's telegram username: @tima_1j ⚙"
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
     elif text == "/stats":
         cur_stats.execute(
@@ -426,6 +442,10 @@ def respond():
             if msg == "":
                 msg = "Sadly, you haven't played anything or there is something wrong with statistics."
             bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
+    elif text == "/clear_stats":
+        cur_stats.execute("DROP TABLE stats")
+        msg = "Stats cleared."
+        bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
     else:
         msg = "Not allowed input. Please click /start to start the quiz or answer the question with '/true' or '/false'"
         bot.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
