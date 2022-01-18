@@ -72,12 +72,16 @@ def respond():
     userid = update.message.from_user.id
     print("Bot is currently used by " + username + " userid: " + str(userid))
     # --- PostgreSql DB ---
-    db_string = "postgres://qfcagbtgogiiqe:07bfd9a462edc706c037450f12c08ac4cc6934a2ed060f4a6ccc6e78a1c09e2d@ec2-99-81-177-233.eu-west-1.compute.amazonaws.com:5432/di7qmaduus4kp"
+    # db_string = "postgres://qfcagbtgogiiqe:07bfd9a462edc706c037450f12c08ac4cc6934a2ed060f4a6ccc6e78a1c09e2d@ec2-99-81-177-233.eu-west-1.compute.amazonaws.com:5432/di7qmaduus4kp"
     # db_string = "postgresql://postgres:010209500714@localhost/tg_quizbot_db"  # local
-    db = create_engine(db_string)
-    print(db)
+    # db = create_engine(db_string)
+    # print(db)
     # stats table
-    con_stats = db.connect()
+    con_stats = psycopg2.connect(
+        host="ec2-99-81-177-233.eu-west-1.compute.amazonaws.com",
+        database="di7qmaduus4kp",
+        user="qfcagbtgogiiqe",
+        password="07bfd9a462edc706c037450f12c08ac4cc6934a2ed060f4a6ccc6e78a1c09e2d")
     cur_stats = con_stats.cursor()
     cur_stats.execute("CREATE TABLE IF NOT EXISTS stats (id INTEGER, username TEXT, "
                       "topic TEXT, difficulty TEXT, score TEXT, "
@@ -111,7 +115,11 @@ def respond():
     cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'films_tv', 'hard', '0/0')", (userid, username))
 
     # quiz_db table - first connection (insert row with unique chat_id)
-    connection = db.connect()
+    connection = psycopg2.connect(
+        host="ec2-99-81-177-233.eu-west-1.compute.amazonaws.com",
+        database="di7qmaduus4kp",
+        user="qfcagbtgogiiqe",
+        password="07bfd9a462edc706c037450f12c08ac4cc6934a2ed060f4a6ccc6e78a1c09e2d")
     print(" -chat_id: " + str(chat_id) + ", connection.total_changes: " + str(connection.total_changes))
     cursor = connection.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS quiz_db (chat_id INT, game_started TEXT, quiz BYTEA, "
