@@ -86,33 +86,33 @@ def respond():
     cur_stats.execute("CREATE TABLE IF NOT EXISTS stats (id INTEGER, username TEXT, "
                       "topic TEXT, difficulty TEXT, score TEXT, "
                       "UNIQUE(id, topic, difficulty))")
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'general', 'easy', '0/0')", (userid, username))
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'general', 'normal', '0/0')", (userid, username))
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'general', 'hard', '0/0')", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'general', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'general', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'general', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
 
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'history', 'easy', '0/0')", (userid, username))
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'history', 'normal', '0/0')", (userid, username))
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'history', 'hard', '0/0')", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'history', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'history', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'history', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
 
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'science', 'easy', '0/0')", (userid, username))
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'science', 'normal', '0/0')", (userid, username))
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'science', 'hard', '0/0')", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'science', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'science', 'normal', '0/0' ON CONFLICT (id, topic, difficulty) DO NOTHING)", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'science', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
 
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'nature', 'easy', '0/0')", (userid, username))
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'nature', 'normal', '0/0')", (userid, username))
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'nature', 'hard', '0/0')", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'nature', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'nature', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'nature', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
 
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'animation', 'easy', '0/0')", (userid, username))
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'animation', 'normal', '0/0')", (userid, username))
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'animation', 'hard', '0/0')", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'animation', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'animation', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'animation', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
 
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'games', 'easy', '0/0')", (userid, username))
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'games', 'normal', '0/0')", (userid, username))
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'games', 'hard', '0/0')", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'games', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'games', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'games', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
 
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'films_tv', 'easy', '0/0')", (userid, username))
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'films_tv', 'normal', '0/0')", (userid, username))
-    cur_stats.execute("INSERT OR IGNORE INTO stats VALUES (?, ?, 'films_tv', 'hard', '0/0')", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'films_tv', 'easy', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'films_tv', 'normal', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
+    cur_stats.execute("INSERT INTO stats VALUES (?, ?, 'films_tv', 'hard', '0/0') ON CONFLICT (id, topic, difficulty) DO NOTHING", (userid, username))
 
     # quiz_db table - first connection (insert row with unique chat_id)
     connection = psycopg2.connect(
@@ -125,7 +125,7 @@ def respond():
     cursor.execute("CREATE TABLE IF NOT EXISTS quiz_db (chat_id INT, game_started TEXT, quiz BYTEA, "
                    "chosen_topic TEXT, chosen_difficulty TEXT, lives_num INTEGER, "
                    "UNIQUE(chat_id))")
-    cursor.execute("INSERT OR IGNORE INTO quiz_db VALUES (?, 'false', ?, 'general', 'normal', 5)", (chat_id, pickled_quiz))
+    cursor.execute("INSERT INTO quiz_db VALUES (?, 'false', ?, 'general', 'normal', 5) ON CONFLICT (chat_id) DO NOTHING", (chat_id, pickled_quiz))
     # consequent connections (read)
     rows = cursor.execute(
         "SELECT game_started, quiz, chosen_topic, chosen_difficulty, lives_num FROM quiz_db WHERE chat_id = ?",
