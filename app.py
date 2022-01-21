@@ -1,7 +1,7 @@
 from flask import Flask, request
 
 import telegram
-from telebot.credentials import bot_token, URL
+from telebot.credentials import *
 from telebot.quiz_game.quiz_main import quiz_start
 
 import pickle
@@ -148,10 +148,10 @@ def respond():
     # --- PostgreSql DB ---
     # stats table
     con_stats = psycopg2.connect(
-        host="ec2-99-81-177-233.eu-west-1.compute.amazonaws.com",
-        database="di7qmaduus4kp",
-        user="qfcagbtgogiiqe",
-        password="07bfd9a462edc706c037450f12c08ac4cc6934a2ed060f4a6ccc6e78a1c09e2d")
+        host=heroku_host,
+        database=heroku_database,
+        user=heroku_user,
+        password=heroku_password)
     cur_stats = con_stats.cursor()
     cur_stats.execute("CREATE TABLE IF NOT EXISTS stats (id INTEGER, username TEXT, "
                       "topic TEXT, difficulty TEXT, score TEXT, "
@@ -160,10 +160,10 @@ def respond():
 
     # quiz_db table - first connection (insert row with unique chat_id)
     connection = psycopg2.connect(
-        host="ec2-99-81-177-233.eu-west-1.compute.amazonaws.com",
-        database="di7qmaduus4kp",
-        user="qfcagbtgogiiqe",
-        password="07bfd9a462edc706c037450f12c08ac4cc6934a2ed060f4a6ccc6e78a1c09e2d")
+        host=heroku_host,
+        database=heroku_database,
+        user=heroku_user,
+        password=heroku_password)
     cursor = connection.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS quiz_db (chat_id INT, game_started TEXT, quiz BYTEA, "
                    "chosen_topic TEXT, chosen_difficulty TEXT, lives_num INTEGER, "
